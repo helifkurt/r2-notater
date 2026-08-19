@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Matematikk R2 — Notatbok</title>
+<style>
+:root{
+--brand:#E67AA8;
+--accent:#F2A6C6;
+--boxfill:#FDEEF5;
+--warnfill:#FFF5FA;
+--warnborder:#F2A6C6;
+--text:#222;
+--muted:#666;
+--bg:#FFFAFC;
+--sidebar-w:260px;
+}
+*{box-sizing:border-box;}
+body{
+margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+color:var(--text); background:var(--bg); line-height:1.55;
+}
+header.topbar{
+position:sticky; top:0; z-index:50;
+display:flex; align-items:center; gap:12px;
+background:var(--brand); color:#fff; padding:10px 14px;
+}
+header.topbar button#navToggle{
+background:rgba(255,255,255,.15); border:none; color:#fff; font-size:20px;
+padding:6px 12px; border-radius:8px; cursor:pointer;
+}
+header.topbar .title{font-weight:700; font-size:16px;}
+header.topbar .subtitle{font-size:12px; opacity:.85; margin-left:auto;}
+
+.layout{display:flex; min-height:100vh;}
+
+nav#sidebar{
+width:var(--sidebar-w); flex-shrink:0; background:#fff; border-right:1px solid #e3e3e0;
+position:fixed; top:46px; bottom:0; left:0; overflow-y:auto; padding:14px 10px 40px;
+transform:translateX(0); transition:transform .2s ease; z-index:40;
+}
+nav#sidebar h3{font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:18px 8px 6px;}
+nav#sidebar a{
+display:block; padding:8px 10px; border-radius:8px; color:var(--text); text-decoration:none; font-size:14.5px;
+}
+nav#sidebar a.active, nav#sidebar a:hover{background:var(--boxfill); color:var(--accent); font-weight:600;}
+nav#sidebar .placeholder{
+font-size:13px; color:var(--muted); font-style:italic; padding:8px 10px;
+}
+
+main{margin-left:var(--sidebar-w); padding:26px 22px 80px; max-width:820px; width:100%;}
+
+@media (max-width:820px){
+nav#sidebar{transform:translateX(-105%);}
+nav#sidebar.open{transform:translateX(0); box-shadow:2px 0 16px rgba(0,0,0,.15);}
+main{margin-left:0; padding:20px 16px 80px;}
+}
+
+h1.doctitle{color:var(--brand); font-size:1.7em; margin-bottom:2px;}
+.doc-sub{color:var(--muted); font-style:italic; margin-top:0;}
+
+section{padding-top:10px; margin-bottom:8px; scroll-margin-top:60px;}
+h2{color:var(--brand); border-bottom:2px solid var(--brand); padding-bottom:6px; margin-top:2.4em;}
+h3{color:var(--accent); margin-top:1.6em;}
+h4{font-style:italic; color:#333; margin-bottom:.3em;}
+
+.box{
+background:var(--boxfill); border:1.5px solid var(--accent); border-radius:10px;
+padding:14px 16px; margin:16px 0;
+}
+.box .box-title{color:var(--accent); font-weight:700; margin-bottom:8px; font-size:.95em; text-transform:uppercase; letter-spacing:.02em;}
+.box.warn{background:var(--warnfill); border-color:var(--warnborder);}
+.box.warn .box-title{color:var(--warnborder);}
+.box.plain{background:#f2f2f0; border-color:#bbb;}
+
+.formula{
+text-align:center; font-style:italic; font-size:1.15em; margin:14px 0;
+overflow-x:auto; padding:2px 4px;
+}
+
+ul, ol{padding-left:1.3em;}
+li{margin-bottom:6px;}
+.checklist li{list-style:none; margin-bottom:8px;}
+.checklist li::before{content:"☐ "; }
+
+.example{border-left:4px solid var(--accent); padding-left:14px; margin:18px 0;}
+.example h4{margin-top:0;}
+
+.code{
+background:#f5f5f5; border:1px solid #ddd; border-radius:8px; padding:10px 14px;
+font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.92em; margin:14px 0; overflow-x:auto;
+white-space:pre;
+}
+
+footer.pagefoot{margin-top:60px; padding-top:16px; border-top:1px solid #ddd; color:var(--muted); font-size:.9em;}
+
+a.backtotop{position:fixed; right:16px; bottom:16px; background:var(--accent); color:#fff; border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; text-decoration:none; box-shadow:0 2px 8px rgba(0,0,0,.25); font-size:18px;}
+
+code, .mono{font-family:ui-monospace,Menlo,Consolas,monospace;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+<button id="navToggle" aria-label="Åpne meny">☰</button>
+<span class="title">Matematikk R2 — Notatbok</span>
+</header>
+
+<div class="layout">
+<nav id="sidebar">
+<h3>Kapittel 1 — Følger og rekker</h3>
+<a href="#forside">Forside &amp; kompetansemål</a>
+<a href="#hvordan-bruke">Hvordan bruke notatet</a>
+<a href="#k11">1.1 Tallfølger</a>
+<a href="#k12">1.2 Rekker</a>
+<a href="#k13">1.3 Aritmetiske følger</a>
+<a href="#k14">1.4 Aritmetiske rekker</a>
+<a href="#k15">1.5 Geometriske følger</a>
+<a href="#k16">1.6 Geometriske rekker</a>
+<a href="#k17">1.7 Uendelige rekker</a>
+<a href="#k18">1.8 Rekker med variabel kvotient</a>
+<a href="#k19">1.9 Induksjonsbevis</a>
+<a href="#kompetanse">Kobling til kompetansemål</a>
+<a href="#sjekkliste">Sjekkliste</a>
+<a href="#feil">Vanlige eksamensfeil</a>
+<a href="#ordliste">Ordliste</a>
+
+<h3>Kommende kapitler</h3>
+<div class="placeholder">Nye notater legges til her etter hvert som vi jobber gjennom faget — denne notatboken oppdateres i stedet for å lage nye filer.</div>
+</nav>
+
+<main>
+
+<section id="forside">
+<p style="color:var(--accent); font-weight:700; margin-bottom:0;">MATEMATIKK R2</p>
+<h1 class="doctitle">Kapittel 1 — Følger og rekker</h1>
+
+<div class="box plain">
+<p><strong>Dette notatet dekker:</strong> 1.1 Tallfølger · 1.2 Rekker · 1.3 Aritmetiske følger · 1.4 Aritmetiske rekker · 1.5 Geometriske følger · 1.6 Geometriske rekker · 1.7 Uendelige rekker · 1.8 Geometriske rekker med variable kvotienter · 1.9 Induksjonsbevis.</p>
+<p><strong>Læreverk:</strong> Sinus R2 (Cappelen Damm), kapittel 1 — notatet følger bokens rekkefølge, begreper og formelnotasjon, men forklarer alt mer i dybden enn boka og legger vekt på utledninger og typiske eksamensfeil.</p>
+</div>
+
+<p><strong>Kompetansemål dette kapittelet dekker (MAT03-02):</strong></p>
+<ul>
+<li>«utforske egenskaper ved ulike rekker og gjøre rede for praktiske anvendelser»</li>
+<li>«utforske rekursive sammenhenger ved programmering»</li>
+</ul>
+<p>Begge målene handler om mer enn å sette tall inn i formler: du skal kunne <em>forklare hvorfor</em> formlene stemmer, kjenne igjen hvilken type følge/rekke du står overfor, og bruke rekursive sammenhenger i et program — ikke bare regne for hånd.</p>
+</section>
+
+<section id="hvordan-bruke">
+<h2>Hvordan bruke dette notatet</h2>
+<p>Les gjennom ett delkapittel om gangen, i samme rekkefølge som boka. Formlene står i rosa bokser — dette er det du må kunne utenat eller vite hvor du finner. Jobb deg gjennom eksemplene med papir og penn (ikke bare les dem), og bruk «Vanlige feil»-boksene til å sjekke om du gjør noen av de klassiske tabbene selv. Til slutt kan du bruke sjekklisten og ordlisten bakerst til å teste deg selv før prøven.</p>
+</section>
+
+<section id="k11">
+<h2>1.1 Tallfølger</h2>
+<p>En tallfølge er en samling tall der rekkefølgen har betydning. Tallene i følgen kalles ledd. Det første leddet skriver vi a₁, det andre a₂, og leddet på plass n skriver vi aₙ. Forskjellen fra en tallmengde er nettopp at rekkefølgen betyr noe — i en mengde gjør den ikke det.</p>
+
+<h3>Rekursiv og eksplisitt formel</h3>
+<p>Det finnes to hovedmåter å beskrive en tallfølge på:</p>
+<ul>
+<li>En <strong>rekursiv formel</strong> gir et ledd ut fra ett eller flere av leddene foran (og noen ganger leddnummeret selv).</li>
+<li>En <strong>eksplisitt formel</strong> gir leddet aₙ direkte, uttrykt bare ved n.</li>
+</ul>
+<p>Fordelen med en eksplisitt formel er at du kan finne et hvilket som helst ledd direkte, uten å regne ut alle leddene foran. Skal du finne ledd nr. 100, er en eksplisitt formel mye raskere enn å regne rekursivt hundre ganger.</p>
+
+<div class="box">
+<div class="box-title">Eksempel på sammenhengen</div>
+<div class="formula">Rekursiv: a₁ = 2,&nbsp; aₙ = 2 · aₙ₋₁&nbsp; for n &gt; 1</div>
+<div class="formula">Eksplisitt: aₙ = 2ⁿ</div>
+<p>Begge beskriver den samme følgen: 2, 4, 8, 16, 32, …</p>
+</div>
+
+<div class="example">
+<h4>Eksempel — fra rekursiv til eksplisitt formel</h4>
+<p>En tallfølge har a₁ = 2, og for n &gt; 1 er aₙ = 3 · aₙ₋₁. Finn de fem første leddene, og finn en eksplisitt formel.</p>
+<p><strong>Løsning:</strong></p>
+<p>a₁ = 2&nbsp; &nbsp; a₂ = 3·2 = 6&nbsp; &nbsp; a₃ = 3·6 = 18&nbsp; &nbsp; a₄ = 3·18 = 54&nbsp; &nbsp; a₅ = 3·54 = 162</p>
+<p>Hvert ledd er lik det foregående multiplisert med 3, og vi starter på 2. Leddet nr. n har blitt multiplisert med 3 nøyaktig (n − 1) ganger:</p>
+<div class="formula"><strong>aₙ = 2 · 3ⁿ⁻¹</strong></div>
+<p>Kontroll: a₅ = 2 · 3⁴ = 2 · 81 = 162 ✓</p>
+</div>
+
+<h3>Konvergens og grenseverdi</h3>
+<p>Noen følger nærmer seg et bestemt tall når n blir veldig stort. Da sier vi at følgen <strong>konvergerer</strong>, og vi skriver</p>
+<div class="formula">lim (n→∞) aₙ = a</div>
+<p>Tallet a kalles grenseverdien til følgen. Nærmer leddene seg ikke noe bestemt tall (f.eks. fordi de vokser mot uendelig), sier vi at følgen <strong>divergerer</strong>. For å finne grenseverdien til en brøk kan du dele teller og nevner på høyeste potens av n i nevneren — akkurat som med grenseverdier i R1.</p>
+
+<div class="example">
+<h4>Eksempel — konvergens</h4>
+<p>Undersøk om følgene konvergerer, og finn eventuelt grenseverdien: a) aₙ = (2n+3)/(n+1)&nbsp; &nbsp; b) aₙ = n/2 + 2/n</p>
+<p><strong>a)</strong> Del teller og nevner på n: lim (2 + 3/n)/(1 + 1/n) = (2+0)/(1+0) = <strong>2</strong>. Følgen konvergerer og har grenseverdien 2.</p>
+<p><strong>b)</strong> Når n → ∞, går n/2 → ∞ mens 2/n → 0. Summen vokser over alle grenser. <strong>Følgen divergerer.</strong></p>
+</div>
+
+<div class="box warn">
+<div class="box-title">Vanlige feil</div>
+<p>Å tro at «følgen blir et stort tall» er det samme som konvergens — konvergens betyr at leddene nærmer seg ett bestemt tall, ikke bare at de vokser.</p>
+<p>Å blande sammen rekursiv og eksplisitt formel, f.eks. sette n rett inn i en rekursiv formel som egentlig krever forrige ledd.</p>
+</div>
+
+<h3>Programmering: rekursive følger i Python</h3>
+<p>En rekursiv formel er godt egnet for programmering, fordi vi bygger neste ledd direkte fra det forrige i en løkke:</p>
+<div class="code">a = 2
+for n in range(2, 11):
+    a = 3 * a
+print(a)   # skriver ut a_10</div>
+</section>
+
+<section id="k12">
+<h2>1.2 Rekker</h2>
+<p>Når vi legger sammen leddene i en tallfølge, får vi en <strong>rekke</strong>. En rekke er et uttrykk av typen a₁ + a₂ + a₃ + …. Summen av de n første leddene kaller vi delsummen sₙ:</p>
+<div class="box">
+<div class="box-title">Delsum</div>
+<div class="formula">sₙ = a₁ + a₂ + a₃ + … + aₙ = Σ (i=1 til n) aᵢ</div>
+<p>Symbolet Σ (stor sigma) betyr «summer alle ledd aᵢ fra i = 1 til i = n».</p>
+</div>
+
+<div class="example">
+<h4>Eksempel — regne ut en delsum</h4>
+<p>Leddene i en rekke er gitt ved aₙ = 2n − 1. Finn de fem første leddene, og finn s₃ og s₅.</p>
+<p>Leddene: 1, 3, 5, 7, 9, … &nbsp; s₃ = 1+3+5 = <strong>9</strong> &nbsp; &nbsp; s₅ = 1+3+5+7+9 = <strong>25</strong></p>
+</div>
+
+<p>I CAS skrives summen med kommandoen <code>Sum(uttrykk, variabel, fra, til)</code>, f.eks. <code>Sum(2n-1, n, 1, 5)</code> for å finne s₅ direkte.</p>
+<div class="code">sum = 0
+for n in range(1, 6):
+    sum += 2*n - 1
+print(sum)   # skriver ut s_5 = 25</div>
+
+<div class="box warn">
+<div class="box-title">Vanlige feil</div>
+<p>Å blande sammen ledd aₙ og delsum sₙ. aₙ er ett tall (leddet på plass n), mens sₙ er summen av alle leddene opp til og med det n-te.</p>
+</div>
+</section>
+
+<section id="k13">
+<h2>1.3 Aritmetiske følger</h2>
+<p>En <strong>aritmetisk følge</strong> er en følge der differansen mellom hvert ledd og leddet foran er konstant. Denne konstanten kaller vi differansen d: aₙ = aₙ₋₁ + d for n &gt; 1. Ved å legge til d gjentatte ganger fra a₁, får vi den eksplisitte formelen:</p>
+<div class="box">
+<div class="box-title">Aritmetisk følge</div>
+<div class="formula">aₙ = a₁ + (n − 1) · d</div>
+</div>
+
+<div class="example">
+<h4>Eksempel</h4>
+<p>En aritmetisk følge har a₁ = 3 og differanse d = 2. Finn en formel for aₙ, og finn ledd nr. 37.</p>
+<p>aₙ = 3 + (n−1)·2 = 2n + 1 &nbsp; ⇒ &nbsp; a₃₇ = 2·37 + 1 = <strong>75</strong></p>
+</div>
+
+<div class="box warn">
+<div class="box-title">Vanlig feil</div>
+<p>Å skrive aₙ = a₁ + n·d i stedet for aₙ = a₁ + (n−1)·d. a₁ er allerede ledd nr. 1, så du legger bare til d (n−1) ganger.</p>
+</div>
+</section>
+
+<section id="k14">
+<h2>1.4 Aritmetiske rekker</h2>
+<p>Når leddene i en rekke danner en aritmetisk følge, er rekka en <strong>aritmetisk rekke</strong>. Summen kan utledes ved å pare sammen første og siste ledd, andre og nest siste, osv. (Gauss' metode) — hvert par gir samme sum, a₁ + aₙₙ:</p>
+<div class="box">
+<div class="box-title">Aritmetisk rekke</div>
+<div class="formula">sₙ = (a₁ + aₙ)/2 · n</div>
+</div>
+
+<div class="example">
+<h4>Eksempel — Gauss-summen</h4>
+<p>Finn summen av rekka 1 + 2 + 3 + … + 100.</p>
+<p>a₁ = 1, a₁₀₀ = 100, n = 100 &nbsp;⇒&nbsp; s₁₀₀ = (1+100)/2 · 100 = 101 · 50 = <strong>5050</strong></p>
+</div>
+
+<div class="example">
+<h4>Eksempel — finne antall ledd</h4>
+<p>Leddene i en rekke er gitt ved aₙ = 2n + 3. Hvor mange ledd må vi ta med for at summen skal bli 192?</p>
+<p>a₁ = 5, aₙ = 2n+3: sₙ = (5 + 2n+3)/2 · n = (n+4)·n. Løs (n+4)n = 192 ⟹ n² + 4n − 192 = 0 ⟹ n = 12 eller n = −16.</p>
+<p>Siden n må være positivt: <strong>rekka består av 12 ledd.</strong></p>
+<p style="color:var(--muted); font-style:italic;">Løses raskt i CAS med Sum(2n+3, n, 1, x) = 192, eller i Python med en løkke som summerer til grensen er nådd.</p>
+</div>
+</section>
+
+<section id="k15">
+<h2>1.5 Geometriske følger</h2>
+<p>I en <strong>geometrisk følge</strong> er det et fast forhold k mellom et ledd og leddet foran. Vi kaller k <strong>kvotienten</strong> i følgen: aₙ = k · aₙ₋₁ for n &gt; 1.</p>
+<div class="box">
+<div class="box-title">Geometrisk følge</div>
+<div class="formula">aₙ = a₁ · kⁿ⁻¹</div>
+<p>Er k &gt; 1 vokser følgen; er 0 &lt; k &lt; 1 avtar den mot 0; er k negativ, bytter leddene fortegn.</p>
+</div>
+
+<div class="example">
+<h4>Eksempel — undersøke om en følge er geometrisk</h4>
+<p>Undersøk om følgen 9, −6, 4, −8/3, … er geometrisk, og finn eventuelt kvotienten.</p>
+<p>a₂/a₁ = −6/9 = −2/3&nbsp; &nbsp; a₃/a₂ = 4/(−6) = −2/3&nbsp; &nbsp; a₄/a₃ = (−8/3)/4 = −2/3</p>
+<p>Forholdet er det samme mellom alle par. <strong>Følgen er geometrisk med kvotient k = −2/3.</strong></p>
+</div>
+</section>
+
+<section id="k16">
+<h2>1.6 Geometriske rekker</h2>
+<p>Når leddene i en rekke danner en geometrisk følge, er rekka en <strong>geometrisk rekke</strong>. Summen kan utledes ved at sₙ − k·sₙ gir en teleskoperende sum der nesten alle ledd kansellerer:</p>
+<div class="box">
+<div class="box-title">Geometrisk rekke</div>
+<div class="formula">sₙ = a₁ · (kⁿ − 1)/(k − 1)&nbsp; &nbsp;(for k ≠ 1)</div>
+<div class="formula">sₙ = n · a₁&nbsp; &nbsp;(for k = 1)</div>
+</div>
+
+<div class="example">
+<h4>Eksempel — riskorn på sjakkbrettet</h4>
+<p>Et gammelt sagn forteller om en oppfinner som ba om ett riskorn på rute 1, to på rute 2, fire på rute 3, osv. — dobbelt så mange for hver av de 64 rutene på et sjakkbrett. Hvor mange riskorn blir det på siste rute, og hvor mange totalt?</p>
+<p>Geometrisk rekke med a₁ = 1, k = 2. Rute 64: a₆₄ = 2⁶³ ≈ <strong>9,22·10¹⁸</strong> korn.</p>
+<p>Totalt: s₆₄ = (2⁶⁴ − 1)/(2−1) = 2⁶⁴ − 1 ≈ <strong>1,84·10¹⁹</strong> korn — et godt eksempel på hvor fort geometrisk vekst løper løpsk.</p>
+</div>
+
+<div class="box warn">
+<div class="box-title">Vanlige feil</div>
+<p>Å bruke formelen for aritmetiske rekker på en geometrisk rekke (eller omvendt) — sjekk alltid om det er konstant differanse eller konstant kvotient.</p>
+<p>Fortegnsfeil når k − 1 er negativt (k &lt; 1) — regn teller og nevner hver for seg før du dividerer.</p>
+</div>
+</section>
+
+<section id="k17">
+<h2>1.7 Uendelige rekker</h2>
+<p>En uendelig rekke har uendelig mange ledd. Rekka <strong>konvergerer</strong> og har en sum s dersom delsummen sₙ nærmer seg et bestemt tall når n går mot uendelig — ellers <strong>divergerer</strong> den.</p>
+<div class="box">
+<div class="box-title">Uendelig geometrisk rekke</div>
+<p>Konvergerer hvis og bare hvis <strong>−1 &lt; k &lt; 1</strong>. Summen er da:</p>
+<div class="formula">s = a₁/(1 − k)</div>
+</div>
+
+<div class="example">
+<h4>Eksempel — Zenons paradoks</h4>
+<p>Zenon (ca. 500 f.Kr.) hevdet at Akilles, den raskeste mannen i Hellas, aldri kunne ta igjen en skilpadde med 100 m forsprang dersom han løp 10 ganger så fort — for hver gang han når fram dit skilpadda nettopp var, har den rukket å bevege seg litt videre.</p>
+<p>Distansene danner en geometrisk rekke: 100 + 10 + 1 + 0,1 + … med a₁ = 100, k = 1/10.</p>
+<p>s = 100/(1 − 0,1) = 100/0,9 = 1000/9 ≈ <strong>111,1 m</strong>. Akilles tar igjen skilpadda etter ca. 111,1 m — paradokset oppstår fordi en endelig strekning deles i uendelig mange stadig mindre biter, ikke fordi strekningen er uendelig.</p>
+</div>
+
+<div class="example">
+<h4>Eksempel — kvadratet som fylles opp</h4>
+<p>1/2 + 1/4 + 1/8 + 1/16 + … har a₁ = 1/2, k = 1/2.</p>
+<p>s = (1/2)/(1 − 1/2) = <strong>1</strong> — hele kvadratet fylles opp.</p>
+</div>
+
+<div class="box warn">
+<div class="box-title">Vanlige feil</div>
+<p>Å glemme å sjekke −1 &lt; k &lt; 1 før du bruker summeformelen. Formelen gir et tallsvar selv når k ≥ 1, men da er svaret meningsløst — rekka divergerer.</p>
+</div>
+</section>
+
+<section id="k18">
+<h2>1.8 Geometriske rekker med variable kvotienter</h2>
+<p>Noen ganger er kvotienten uttrykt ved en variabel x. Summen s(x) blir da en funksjon av x, og konvergensbetingelsen gir <strong>konvergensområdet</strong> — de x-verdiene rekka faktisk konvergerer for.</p>
+<div class="example">
+<h4>Eksempel</h4>
+<p>Rekka 1 + x + x² + x³ + … har a₁ = 1, k = x.</p>
+<p>s(x) = 1/(1 − x). Rekka konvergerer når <strong>−1 &lt; x &lt; 1</strong>.</p>
+<p style="font-style:italic;">Legg merke til at funksjonsuttrykket 1/(1−x) i seg selv er definert for alle x ≠ 1, men det er bare på ⟨−1, 1⟩ det faktisk stemmer overens med summen av rekka.</p>
+</div>
+</section>
+
+<section id="k19">
+<h2>1.9 Induksjonsbevis</h2>
+<p>Induksjonsbevis er en metode for å bevise at en formel eller påstand er sann for <em>alle</em> naturlige tall n, uten å sjekke hvert tall for seg. Metoden bygger på induksjonsprinsippet:</p>
+<div class="box">
+<div class="box-title">Induksjonsprinsippet</div>
+<p><strong>Krav 1 (basissteget):</strong> Påstanden er riktig for n = 1.</p>
+<p><strong>Krav 2 (induksjonssteget):</strong> Hvis påstanden er riktig for n = k, er den også riktig for n = k+1.</p>
+<p style="font-style:italic;">Er begge krav oppfylt, er påstanden riktig for alle naturlige tall n — som en rekke dominobrikker: Krav 1 sier at den første faller, Krav 2 sier at hver brikke som faller dytter den neste.</p>
+</div>
+
+<div class="example">
+<h4>Eksempel — summen av oddetall</h4>
+<p>Vis ved induksjon at 1 + 3 + 5 + … + (2n−1) = n², for alle naturlige tall n.</p>
+<p><strong>Basissteg (n=1):</strong> Venstre side: 1. Høyre side: 1² = 1. Like — stemmer for n=1.</p>
+<p><strong>Induksjonssteg:</strong> Anta at 1+3+5+…+(2k−1) = k² (induksjonshypotesen). Legg leddet (2k+1) til på begge sider:</p>
+<p>1+3+…+(2k−1)+(2k+1) = k² + (2k+1) = (k+1)²</p>
+<p>Formelen er dermed riktig for n = k+1. Ifølge induksjonsprinsippet er formelen riktig for alle naturlige tall n. ∎</p>
+</div>
+
+<div class="box warn">
+<div class="box-title">Vanlige feil</div>
+<p>Å glemme basissteget og bare vise induksjonssteget — uten et startpunkt faller ikke den første dominobrikka.</p>
+<p>Å bruke det man skal bevise som om det allerede er sant, i stedet for å bruke induksjonshypotesen riktig.</p>
+<p>Å regne feil når leddet for n=k+1 legges til — sett inn n=k+1 i det generelle leddet for å sjekke at det stemmer.</p>
+</div>
+</section>
+
+<section id="kompetanse">
+<h2>Kobling til kompetansemål</h2>
+<div class="box">
+<div class="box-title">Kompetansemål 1</div>
+<p><em>«utforske egenskaper ved ulike rekker og gjøre rede for praktiske anvendelser»</em></p>
+<ul>
+<li>Kjenne igjen om en følge/rekke er aritmetisk, geometrisk, eller ingen av delene, og forklare hvordan du ser det.</li>
+<li>Kunne utlede eller forklare hvorfor formlene for sₙ ser ut som de gjør, ikke bare pugge dem.</li>
+<li>Avgjøre om en uendelig geometrisk rekke konvergerer, og begrunne det med kvotienten k.</li>
+<li>Bruke rekker i praktiske sammenhenger: rentesregning, sparing, lån, vekstmodeller.</li>
+</ul>
+</div>
+<div class="box">
+<div class="box-title">Kompetansemål 2</div>
+<p><em>«utforske rekursive sammenhenger ved programmering»</em></p>
+<ul>
+<li>Skrive et Python-program som regner ut et gitt ledd i en rekursivt definert følge.</li>
+<li>Skrive et program som summerer leddene i en rekke opp til et gitt antall, eller finner hvor mange ledd som trengs for en gitt sum.</li>
+<li>Forstå sammenhengen mellom den rekursive formelen (det programmet gjør) og den eksplisitte formelen (snarveien uten løkke).</li>
+</ul>
+</div>
+</section>
+
+<section id="sjekkliste">
+<h2>Sjekkliste før prøve/eksamen</h2>
+<ul class="checklist">
+<li>Jeg kan forklare forskjellen på rekursiv og eksplisitt formel, og gå mellom dem.</li>
+<li>Jeg kan avgjøre om en følge er aritmetisk, geometrisk eller ingen av delene.</li>
+<li>Jeg kan formlene aₙ = a₁+(n−1)d og aₙ = a₁·kⁿ⁻¹ utenat.</li>
+<li>Jeg kan formlene sₙ = (a₁+aₙ)/2·n og sₙ = a₁·(kⁿ−1)/(k−1) utenat.</li>
+<li>Jeg kan forklare hvorfor formlene stemmer (utledningene), ikke bare bruke dem.</li>
+<li>Jeg kan avgjøre om en uendelig geometrisk rekke konvergerer, og regne ut summen når den gjør det.</li>
+<li>Jeg kan sette opp og løse et induksjonsbevis med både basissteg og induksjonssteg.</li>
+<li>Jeg kan skrive et enkelt Python-program som bygger en følge rekursivt eller summerer en rekke.</li>
+<li>Jeg kan løse praktiske tekstoppgaver (rente, lån, vekst) ved å tolke dem som rekker.</li>
+<li>Jeg kan bruke CAS (Sum-kommandoen) til å regne ut og løse likninger med rekker.</li>
+</ul>
+</section>
+
+<section id="feil">
+<h2>Vanligste eksamensfeil for dette temaet</h2>
+<ol>
+<li>Bytte om på formlene for aritmetiske og geometriske rekker, eller bruke rekkeformelen når oppgaven egentlig spør om et enkelt ledd — les oppgaveteksten nøye.</li>
+<li>Glemme (n−1) i eksponenten/multiplikasjonen: aₙ = a₁·kⁿ i stedet for a₁·kⁿ⁻¹, eller a₁+n·d i stedet for a₁+(n−1)·d.</li>
+<li>Bruke summeformelen for en uendelig geometrisk rekke uten å sjekke at −1 &lt; k &lt; 1 først.</li>
+<li>Glemme basissteget i et induksjonsbevis, eller ikke vise induksjonssteget tydelig nok.</li>
+<li>Regnefeil med fortegn når kvotienten k er negativ eller en brøk.</li>
+<li>I praktiske oppgaver: bruke feil antall ledd fordi man teller perioder feil.</li>
+</ol>
+</section>
+
+<section id="ordliste">
+<h2>Ordliste</h2>
+<ul>
+<li><strong>Tallfølge / følge:</strong> en samling tall der rekkefølgen har betydning: a₁, a₂, a₃, …</li>
+<li><strong>Ledd:</strong> ett enkelt tall i en følge; aₙ er leddet på plass n.</li>
+<li><strong>Rekursiv formel:</strong> gir et ledd ut fra ett eller flere av leddene foran.</li>
+<li><strong>Eksplisitt formel:</strong> gir aₙ direkte, uttrykt bare ved n.</li>
+<li><strong>Rekke:</strong> summen av leddene i en følge: a₁+a₂+a₃+…</li>
+<li><strong>Delsum (sₙ):</strong> summen av de n første leddene i en rekke.</li>
+<li><strong>Konvergere:</strong> at leddene/delsummene nærmer seg et bestemt tall når n → ∞.</li>
+<li><strong>Divergere:</strong> at en følge eller rekke ikke konvergerer.</li>
+<li><strong>Grenseverdi:</strong> tallet en konvergent følge nærmer seg (lim aₙ).</li>
+<li><strong>Aritmetisk følge:</strong> en følge med konstant differanse d mellom hvert ledd.</li>
+<li><strong>Differanse (d):</strong> den faste forskjellen mellom to påfølgende ledd i en aritmetisk følge.</li>
+<li><strong>Geometrisk følge:</strong> en følge med konstant kvotient k mellom hvert ledd.</li>
+<li><strong>Kvotient (k):</strong> det faste forholdet mellom to påfølgende ledd i en geometrisk følge.</li>
+<li><strong>Uendelig rekke:</strong> en rekke med uendelig mange ledd.</li>
+<li><strong>Konvergensområde:</strong> hvilke x-verdier som gjør at en rekke med variabel kvotient konvergerer.</li>
+<li><strong>Induksjonsbevis:</strong> en bevismetode for påstander som skal gjelde for alle naturlige tall.</li>
+<li><strong>Induksjonshypotese:</strong> antagelsen om at påstanden er riktig for n=k, brukt i induksjonssteget.</li>
+</ul>
+
+<footer class="pagefoot">
+<p>Matematikk R2 (Sinus R2, Cappelen Damm) · MAT03-02 · Sist oppdatert automatisk av Elif Kurt</p>
+</footer>
+</section>
+
+</main>
+</div>
+
+<a href="#forside" class="backtotop" title="Til toppen">↑</a>
+
+<script>
+const toggle = document.getElementById('navToggle');
+const sidebar = document.getElementById('sidebar');
+toggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+
+sidebar.querySelectorAll('a').forEach(a => {
+a.addEventListener('click', () => {
+if (window.innerWidth <= 820) sidebar.classList.remove('open');
+});
+});
+
+const sections = document.querySelectorAll('main section[id]');
+const navLinks = sidebar.querySelectorAll('a');
+const obs = new IntersectionObserver((entries) => {
+entries.forEach(entry => {
+const link = sidebar.querySelector('a[href="#' + entry.target.id + '"]');
+if (!link) return;
+if (entry.isIntersecting) {
+navLinks.forEach(l => l.classList.remove('active'));
+link.classList.add('active');
+}
+});
+}, { rootMargin: '-30% 0px -60% 0px' });
+sections.forEach(s => obs.observe(s));
+</script>
+
+</body>
+</html>
