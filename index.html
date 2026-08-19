@@ -87,6 +87,12 @@ li{margin-bottom:6px;}
 .example{border-left:4px solid var(--accent); padding-left:14px; margin:18px 0;}
 .example h4{margin-top:0;}
 
+.examtask{background:#F3E8EF; border:1.5px solid var(--brand); border-radius:10px; padding:14px 16px; margin:22px 0 0;}
+.examtask .exam-source{color:var(--brand); font-weight:700; font-size:.85em; text-transform:uppercase; letter-spacing:.02em; margin-bottom:6px;}
+.examtask p{font-style:italic; margin:6px 0;}
+.examsolution{border-left:4px solid var(--brand); background:#fff; padding:10px 16px 4px; margin:0 0 22px;}
+.examsolution .sol-title{color:var(--brand); font-weight:700; font-size:.85em; text-transform:uppercase; letter-spacing:.02em;}
+
 .code{
 background:#f5f5f5; border:1px solid #ddd; border-radius:8px; padding:10px 14px;
 font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.92em; margin:14px 0; overflow-x:auto;
@@ -124,6 +130,7 @@ code, .mono{font-family:ui-monospace,Menlo,Consolas,monospace;}
 <a href="#kompetanse">Kobling til kompetansemål</a>
 <a href="#sjekkliste">Sjekkliste</a>
 <a href="#feil">Vanlige eksamensfeil</a>
+<a href="#eksamen">Eksamensoppgaver</a>
 <a href="#ordliste">Ordliste</a>
 
 <h3>Kommende kapitler</h3>
@@ -434,6 +441,114 @@ print(sum)   # skriver ut s_5 = 25</div>
 <li>Regnefeil med fortegn når kvotienten k er negativ eller en brøk.</li>
 <li>I praktiske oppgaver: bruke feil antall ledd fordi man teller perioder feil.</li>
 </ol>
+</section>
+
+<section id="eksamen">
+<h2>Eksamensoppgaver om følger og rekker</h2>
+<p>Dette er ekte oppgaver om følger og rekker hentet fra sentralt gitte eksamener i R2 (REA3058, Utdanningsdirektoratet), med fullstendige løsningsforslag. Oppgavene er valgt fra eksamener i 2023–2025 og dekker aritmetiske og geometriske følger/rekker, uendelige rekker og induksjonsbevis. Prøv gjerne å løse dem selv først, og se på løsningen etterpå.</p>
+
+<div class="examtask">
+<div class="exam-source">Eksamen R2, høst 2025 · Del 1 · oppgave 6a</div>
+<p>Ta utgangspunkt i den aritmetiske rekken −3 + 0 + 3 + … + 69. Bestem summen av rekken.</p>
+</div>
+<div class="examsolution">
+<p class="sol-title">Løsning</p>
+<p>Dette er en aritmetisk rekke med a₁ = −3, d = 3 og siste ledd aₙ = 69.</p>
+<p>Finn først n ved å bruke aₙ = a₁ + (n − 1)·d:</p>
+<p>69 = −3 + (n − 1)·3&nbsp; ⇒&nbsp; 72 = (n − 1)·3&nbsp; ⇒&nbsp; n − 1 = 24&nbsp; ⇒&nbsp; n = 25</p>
+<p>Summen av en aritmetisk rekke er sₙ = (a₁ + aₙ)/2 · n:</p>
+<p><strong>s₂₅ = (−3 + 69)/2 · 25 = 33 · 25 = 825</strong></p>
+</div>
+
+<div class="examtask">
+<div class="exam-source">Eksamen R2, høst 2025 · Del 1 · oppgave 6c</div>
+<p>En ball faller fra 2 meters høyde. Hver gang ballen treffer bakken, spretter den opp til en høyde som er 75 % av høyden den falt fra. Hvor mange meter vil ballen bevege seg totalt?</p>
+</div>
+<div class="examsolution">
+<p class="sol-title">Løsning</p>
+<p>Ballen faller først 2 m. Deretter spretter den opp og ned igjen med stadig mindre høyde — hver opp/ned-strekning er 2 · (forrige høyde), og høydene danner en uendelig geometrisk rekke med kvotient k = 0,75.</p>
+<p>Total strekning = første fall + 2 · (summen av alle sprett-høydene). Sprett-høydene er en uendelig geometrisk rekke med a₁ = 2 · 0,75 = 1,5 og k = 0,75. Siden −1 &lt; 0,75 &lt; 1 konvergerer den:</p>
+<p>Sum av sprett-høyder = a₁/(1 − k) = 1,5/0,25 = 6 m</p>
+<p><strong>Total strekning = 2 + 2 · 6 = 14 m</strong></p>
+<p style="color:var(--muted); font-style:italic;">(Like gjerne kan hele strekningen skrives direkte som h₀·(1+k)/(1−k) = 2 · 1,75/0,25 = 14 m.)</p>
+</div>
+
+<div class="examtask">
+<div class="exam-source">Eksamen R2, høst 2025 · Del 1 · oppgave 8</div>
+<p>Vis ved induksjon at 1 + 4 + 4² + … + 4ⁿ = (4ⁿ⁺¹ − 1)/3 for n ≥ 0.</p>
+</div>
+<div class="examsolution">
+<p class="sol-title">Løsning</p>
+<p><strong>Basissteg (n = 0):</strong> Venstre side: 1. Høyre side: (4¹ − 1)/3 = 3/3 = 1. Like — påstanden stemmer for n = 0.</p>
+<p><strong>Induksjonssteg:</strong> Anta at påstanden er riktig for n = k, altså at 1 + 4 + 4² + … + 4ᵏ = (4ᵏ⁺¹ − 1)/3 (induksjonshypotesen). Legg leddet 4ᵏ⁺¹ til på begge sider:</p>
+<p>1 + 4 + … + 4ᵏ + 4ᵏ⁺¹ = (4ᵏ⁺¹ − 1)/3 + 4ᵏ⁺¹ = (4ᵏ⁺¹ − 1 + 3·4ᵏ⁺¹)/3 = (4·4ᵏ⁺¹ − 1)/3 = (4ᵏ⁺² − 1)/3</p>
+<p>Dette er nettopp formelen med n = k+1 satt inn. Formelen er dermed riktig for n = k+1.</p>
+<p><strong>Ifølge induksjonsprinsippet er formelen riktig for alle n ≥ 0. ∎</strong></p>
+</div>
+
+<div class="examtask">
+<div class="exam-source">Eksamen R2, høst 2024 · Del 1 · oppgave 2</div>
+<p>a) Finn summen av den aritmetiske rekken 3 + 7 + 11 + 15 + … + 399.</p>
+<p>b) Bestem kvotienten k for en uendelig geometrisk rekke som konvergerer og som har a₁ = 12 og sum = 18.</p>
+<p>c) Vis at tallet 0,757575… kan skrives som en uendelig geometrisk rekke. Bruk dette til å vise at 1,757575… = 58/33.</p>
+</div>
+<div class="examsolution">
+<p class="sol-title">Løsning a)</p>
+<p>a₁ = 3, d = 4, siste ledd aₙ = 399. Finn n: 399 = 3 + (n−1)·4 ⇒ 396 = (n−1)·4 ⇒ n = 100.</p>
+<p><strong>s₁₀₀ = (3 + 399)/2 · 100 = 201 · 100 = 20 100</strong></p>
+<p class="sol-title">Løsning b)</p>
+<p>For en konvergent uendelig geometrisk rekke er s = a₁/(1 − k). Sett inn s = 18 og a₁ = 12:</p>
+<p><strong>18 = 12/(1 − k) ⇒ 1 − k = 12/18 = 2/3 ⇒ k = 1/3</strong></p>
+<p class="sol-title">Løsning c)</p>
+<p>0,757575… = 0,75 + 0,0075 + 0,000075 + … — dette er en uendelig geometrisk rekke med a₁ = 0,75 og k = 0,01. Siden −1 &lt; 0,01 &lt; 1 konvergerer den:</p>
+<p>Sum = a₁/(1 − k) = 0,75/0,99 = 75/99 = 25/33</p>
+<p><strong>Da er 1,757575… = 1 + 25/33 = 33/33 + 25/33 = 58/33 ∎</strong></p>
+</div>
+
+<div class="examtask">
+<div class="exam-source">Eksamen R2, høst 2023 · Del 1 · oppgave 3</div>
+<p>En uendelig geometrisk rekke a₁ + a₂ + a₃ + … konvergerer mot 8.</p>
+<p>a) Bestem summen av de fire første leddene, når du får vite at a₁ = 4.</p>
+<p>I en aritmetisk rekke er a₁ + a₄ + a₇ = 114.</p>
+<p>b) Bestem a₄.</p>
+</div>
+<div class="examsolution">
+<p class="sol-title">Løsning a)</p>
+<p>s = a₁/(1 − k), så 8 = 4/(1 − k) ⇒ 1 − k = 1/2 ⇒ k = 1/2.</p>
+<p>Leddene blir: a₁ = 4, a₂ = 2, a₃ = 1, a₄ = 0,5.</p>
+<p><strong>Sum av de fire første = 4 + 2 + 1 + 0,5 = 7,5</strong></p>
+<p class="sol-title">Løsning b)</p>
+<p>I en aritmetisk følge ligger a₄ nøyaktig midt mellom a₁ og a₇ (siden a₁ = a₄ − 3d og a₇ = a₄ + 3d for en fast differanse d). Da kansellerer d-leddene når vi legger sammen:</p>
+<p>a₁ + a₄ + a₇ = (a₄ − 3d) + a₄ + (a₄ + 3d) = 3·a₄</p>
+<p><strong>Dermed er 3·a₄ = 114 ⇒ a₄ = 38</strong></p>
+</div>
+
+<div class="examtask">
+<div class="exam-source">Eksamen R2, høst 2023 · Del 2 · oppgave 2</div>
+<p>Hver figur består av kuler plassert på pentagoner. Antall kuler på hver av ytterkantene øker med én sammenlignet med figuren før. La Pₙ være antall kuler i figur n. De fem første figurtallene er 1, 6, 16, 31 og 51.</p>
+<p>a) Beskriv en rekursiv sammenheng mellom Pₙ og Pₙ₋₁.</p>
+<p>b) Lag et program som regner ut P₁₀₀ ved å bruke den rekursive sammenhengen du fant i oppgave a).</p>
+<p>c) Bestem en eksplisitt formel for Pₙ, og vis at formelen stemmer ved å gjennomføre et induksjonsbevis.</p>
+</div>
+<div class="examsolution">
+<p class="sol-title">Løsning a)</p>
+<p>Differansene mellom leddene er: 6−1=5, 16−6=10, 31−16=15, 51−31=20 — de øker med 5 hver gang, altså 5, 10, 15, 20, … = 5·1, 5·2, 5·3, 5·4.</p>
+<p><strong>Rekursiv sammenheng: Pₙ = Pₙ₋₁ + 5(n − 1), for n ≥ 2, med P₁ = 1</strong></p>
+<p class="sol-title">Løsning b)</p>
+<div class="code">P = 1
+for n in range(2, 101):
+    P = P + 5 * (n - 1)
+print(P)   # P_100 = 24 751</div>
+<p class="sol-title">Løsning c)</p>
+<p>Eksplisitt formel: siden Pₙ = 1 + 5·(1 + 2 + … + (n−1)) = 1 + 5·(n−1)n/2, forenkler dette til:</p>
+<p><strong>Pₙ = (5n² − 5n + 2)/2</strong></p>
+<p><strong>Induksjonsbevis:</strong></p>
+<p>Basissteg (n=1): Pₙ-formelen gir (5 − 5 + 2)/2 = 1, som stemmer med P₁ = 1.</p>
+<p>Induksjonssteg: Anta at Pₖ = (5k² − 5k + 2)/2 (induksjonshypotesen). Fra den rekursive sammenhengen er Pₖ₊₁ = Pₖ + 5k. Sett inn:</p>
+<p>Pₖ₊₁ = (5k² − 5k + 2)/2 + 5k = (5k² − 5k + 2 + 10k)/2 = (5k² + 5k + 2)/2</p>
+<p>Dette skal stemme med formelen for n = k+1: (5(k+1)² − 5(k+1) + 2)/2 = (5k² + 10k + 5 − 5k − 5 + 2)/2 = (5k² + 5k + 2)/2 ✓ — samme uttrykk.</p>
+<p><strong>Formelen stemmer altså for n = k+1, og ifølge induksjonsprinsippet for alle n ≥ 1. ∎</strong> (Som en kontroll: P₁₀₀ = (5·100² − 5·100 + 2)/2 = 24 751, samme svar som programmet i b.)</p>
+</div>
 </section>
 
 <section id="ordliste">
