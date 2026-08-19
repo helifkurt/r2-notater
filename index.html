@@ -81,8 +81,18 @@ overflow-x:auto; padding:2px 4px;
 
 ul, ol{padding-left:1.3em;}
 li{margin-bottom:6px;}
-.checklist li{list-style:none; margin-bottom:8px;}
-.checklist li::before{content:"☐ "; }
+
+.checklist-progress{font-weight:700; color:var(--brand); margin:6px 0 14px;}
+.checklist{list-style:none; padding-left:0;}
+.checklist li{margin-bottom:2px;}
+.checklist label{display:flex; align-items:flex-start; gap:10px; padding:8px 8px; border-radius:8px; cursor:pointer; transition:background .15s ease; -webkit-tap-highlight-color:transparent;}
+.checklist label:hover{background:var(--boxfill);}
+.checklist input[type="checkbox"]{appearance:none; -webkit-appearance:none; width:21px; height:21px; flex-shrink:0; margin-top:1px; border:2px solid var(--accent); border-radius:6px; cursor:pointer; position:relative; background:#fff;}
+.checklist input[type="checkbox"]:checked{background:var(--brand); border-color:var(--brand);}
+.checklist input[type="checkbox"]:checked::after{content:"✓"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#fff; font-size:14px; font-weight:700; line-height:1;}
+.checklist input[type="checkbox"]:checked ~ span{text-decoration:line-through; color:var(--muted);}
+.checklist-reset{margin-top:10px; background:none; border:1.5px solid var(--accent); color:var(--brand); font-size:.85em; padding:6px 14px; border-radius:20px; cursor:pointer;}
+.checklist-reset:hover{background:var(--boxfill);}
 
 .example{border-left:4px solid var(--accent); padding-left:14px; margin:18px 0;}
 .example h4{margin-top:0;}
@@ -417,18 +427,21 @@ print(sum)   # skriver ut s_5 = 25</div>
 
 <section id="sjekkliste">
 <h2>Sjekkliste før prøve/eksamen</h2>
-<ul class="checklist">
-<li>Jeg kan forklare forskjellen på rekursiv og eksplisitt formel, og gå mellom dem.</li>
-<li>Jeg kan avgjøre om en følge er aritmetisk, geometrisk eller ingen av delene.</li>
-<li>Jeg kan formlene aₙ = a₁+(n−1)d og aₙ = a₁·kⁿ⁻¹ utenat.</li>
-<li>Jeg kan formlene sₙ = (a₁+aₙ)/2·n og sₙ = a₁·(kⁿ−1)/(k−1) utenat.</li>
-<li>Jeg kan forklare hvorfor formlene stemmer (utledningene), ikke bare bruke dem.</li>
-<li>Jeg kan avgjøre om en uendelig geometrisk rekke konvergerer, og regne ut summen når den gjør det.</li>
-<li>Jeg kan sette opp og løse et induksjonsbevis med både basissteg og induksjonssteg.</li>
-<li>Jeg kan skrive et enkelt Python-program som bygger en følge rekursivt eller summerer en rekke.</li>
-<li>Jeg kan løse praktiske tekstoppgaver (rente, lån, vekst) ved å tolke dem som rekker.</li>
-<li>Jeg kan bruke CAS (Sum-kommandoen) til å regne ut og løse likninger med rekker.</li>
+<p style="color:var(--muted);">Trykk på et punkt for å huke det av som gjort. Det du huker av lagres i nettleseren din, så det er der neste gang du åpner siden.</p>
+<div class="checklist-progress" id="sjekkProgress">0 av 10 fullført</div>
+<ul class="checklist" id="sjekklisteListe">
+<li><label><input type="checkbox" data-key="k1"><span>Jeg kan forklare forskjellen på rekursiv og eksplisitt formel, og gå mellom dem.</span></label></li>
+<li><label><input type="checkbox" data-key="k2"><span>Jeg kan avgjøre om en følge er aritmetisk, geometrisk eller ingen av delene.</span></label></li>
+<li><label><input type="checkbox" data-key="k3"><span>Jeg kan formlene aₙ = a₁+(n−1)d og aₙ = a₁·kⁿ⁻¹ utenat.</span></label></li>
+<li><label><input type="checkbox" data-key="k4"><span>Jeg kan formlene sₙ = (a₁+aₙ)/2·n og sₙ = a₁·(kⁿ−1)/(k−1) utenat.</span></label></li>
+<li><label><input type="checkbox" data-key="k5"><span>Jeg kan forklare hvorfor formlene stemmer (utledningene), ikke bare bruke dem.</span></label></li>
+<li><label><input type="checkbox" data-key="k6"><span>Jeg kan avgjøre om en uendelig geometrisk rekke konvergerer, og regne ut summen når den gjør det.</span></label></li>
+<li><label><input type="checkbox" data-key="k7"><span>Jeg kan sette opp og løse et induksjonsbevis med både basissteg og induksjonssteg.</span></label></li>
+<li><label><input type="checkbox" data-key="k8"><span>Jeg kan skrive et enkelt Python-program som bygger en følge rekursivt eller summerer en rekke.</span></label></li>
+<li><label><input type="checkbox" data-key="k9"><span>Jeg kan løse praktiske tekstoppgaver (rente, lån, vekst) ved å tolke dem som rekker.</span></label></li>
+<li><label><input type="checkbox" data-key="k10"><span>Jeg kan bruke CAS (Sum-kommandoen) til å regne ut og løse likninger med rekker.</span></label></li>
 </ul>
+<button type="button" class="checklist-reset" id="sjekkReset">Nullstill sjekkliste</button>
 </section>
 
 <section id="feil">
@@ -607,6 +620,45 @@ link.classList.add('active');
 });
 }, { rootMargin: '-30% 0px -60% 0px' });
 sections.forEach(s => obs.observe(s));
+
+(function(){
+const STORAGE_KEY = 'r2-folger-og-rekker-sjekkliste';
+const boxes = Array.from(document.querySelectorAll('.checklist input[type="checkbox"]'));
+const progressEl = document.getElementById('sjekkProgress');
+const resetBtn = document.getElementById('sjekkReset');
+if (!boxes.length) return;
+
+function loadState(){
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e){ return {}; }
+}
+function saveState(state){
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e){}
+}
+function updateProgress(){
+  const done = boxes.filter(b => b.checked).length;
+  if (progressEl) progressEl.textContent = done + ' av ' + boxes.length + ' fullført';
+}
+
+const state = loadState();
+boxes.forEach(b => {
+  if (state[b.dataset.key]) b.checked = true;
+  b.addEventListener('change', () => {
+    const s = loadState();
+    s[b.dataset.key] = b.checked;
+    saveState(s);
+    updateProgress();
+  });
+});
+updateProgress();
+
+if (resetBtn) {
+  resetBtn.addEventListener('click', () => {
+    boxes.forEach(b => { b.checked = false; });
+    saveState({});
+    updateProgress();
+  });
+}
+})();
 </script>
 
 </body>
